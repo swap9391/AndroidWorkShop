@@ -1,4 +1,4 @@
-package com.lorem.androidworkshop.workmanagers
+package com.lorem.androidworkshop.shared.workmanagers
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

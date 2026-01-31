@@ -1,23 +1,20 @@
-package com.lorem.androidworkshop
+package com.lorem.androidworkshop.ui
 
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.navigation.compose.rememberNavController
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
@@ -25,11 +22,14 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.lorem.androidworkshop.shared.workmanagers.MyNotificationWorker
+import com.lorem.androidworkshop.shared.workmanagers.WelcomeWorker
+import com.lorem.androidworkshop.ui.features.quotes.presentation.navigation.AppNavHost
 import com.lorem.androidworkshop.ui.theme.AndroidWorkShopTheme
-import com.lorem.androidworkshop.workmanagers.MyNotificationWorker
-import com.lorem.androidworkshop.workmanagers.WelcomeWorker
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val NOTIFICATION_PERMISSION_CODE = 101
 
@@ -41,35 +41,24 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AndroidWorkShopTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                val navigationController = rememberNavController()
+                navigationController.AppNavHost()
             }
         }
     }
 
     private fun requestNotificationPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.POST_NOTIFICATIONS
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                    NOTIFICATION_PERMISSION_CODE
-                )
-            } else {
-                generatePeriodicWorkManager(this)
-
-                generateOneTimeWorkManager(this)
-            }
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                NOTIFICATION_PERMISSION_CODE
+            )
         } else {
-            // Android 12 and below
             generatePeriodicWorkManager(this)
 
             generateOneTimeWorkManager(this)
@@ -108,8 +97,10 @@ private fun generateOneTimeWorkManager(context: Context) {
             .build()
     ).setInitialDelay(15, TimeUnit.SECONDS).build()
 
-    WorkManager.getInstance(context).enqueueUniqueWork("network_sync_work",
-        ExistingWorkPolicy.KEEP,welcomeWorkRequest)
+    WorkManager.getInstance(context).enqueueUniqueWork(
+        "network_sync_work",
+        ExistingWorkPolicy.KEEP, welcomeWorkRequest
+    )
 }
 
 private fun generatePeriodicWorkManager(context: Context) {

@@ -1,5 +1,6 @@
-package com.lorem.androidworkshop.workmanagers
+package com.lorem.androidworkshop.shared.workmanagers
 
+import android.R
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -35,7 +36,7 @@ class MyNotificationWorker(
         val notification = NotificationCompat.Builder(applicationContext, channelId)
             .setContentTitle(title)
             .setContentText(message)
-            .setSmallIcon(android.R.drawable.ic_dialog_info) // Replace with your app icon
+            .setSmallIcon(R.drawable.ic_dialog_info) // Replace with your app icon
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
             .build()

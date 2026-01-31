@@ -1,4 +1,4 @@
-package com.lorem.androidworkshop.ui.screens
+package com.lorem.androidworkshop.ui.features.quotes.presentation.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -13,7 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.lorem.androidworkshop.model.Quote
+import com.lorem.androidworkshop.ui.features.quotes.domain.model.Quote
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,7 +44,7 @@ fun QuoteDetailScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "\"${quote.text}\"",
+                    text = "\"${quote.quoteText}\"",
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
@@ -64,5 +64,5 @@ fun QuoteDetailScreen(
 @Preview
 @Composable
 private fun QuoteDetailPrev() {
-    QuoteDetailScreen(quote = Quote("Quote 1", "Author 1"), onBackClick = {})
+    QuoteDetailScreen(quote = Quote(1,"Quote 1", "Author 1"), onBackClick = {})
 }
