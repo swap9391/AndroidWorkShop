@@ -1,4 +1,4 @@
-package com.lorem.myprepproj.model
+package com.lorem.androidworkshop.model
 
 data class Quote(
     val text: String,
