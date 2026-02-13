@@ -1,4 +1,4 @@
-package com.lorem.androidworkshop.ui.features.quotes.domain.entities
+package com.lorem.androidworkshop.ui.features.quotes.data.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

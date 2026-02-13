@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.lorem.androidworkshop.ui.features.quotes.domain.entities.QuoteEntity
+import com.lorem.androidworkshop.ui.features.quotes.data.entities.QuoteEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
